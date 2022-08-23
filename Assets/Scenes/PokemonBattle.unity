@@ -228,17 +228,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153138288}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1453975200}
-  m_Father: {fileID: 1611687053}
-  m_RootOrder: 4
+  m_Father: {fileID: 1194632665}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -89}
+  m_AnchoredPosition: {x: 0, y: -80}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &153138290
@@ -285,10 +285,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1233842685}
-        m_TargetAssemblyTypeName: TurnManager, Assembly-CSharp
-        m_MethodName: PlayerAttack
-        m_Mode: 4
+      - m_Target: {fileID: 1194632666}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: PlayerTurn
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -563,6 +563,85 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &546838083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 546838086}
+  - component: {fileID: 546838085}
+  - component: {fileID: 546838084}
+  m_Layer: 0
+  m_Name: Health
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &546838084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546838083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 27
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: player health
+--- !u!222 &546838085
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546838083}
+  m_CullTransparentMesh: 1
+--- !u!224 &546838086
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546838083}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1194632665}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -290, y: 79}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &750402029
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +802,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1099172193}
   m_CullTransparentMesh: 1
+--- !u!1 &1194632664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1194632665}
+  - component: {fileID: 1194632666}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1194632665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194632664}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 546838086}
+  - {fileID: 153138289}
+  m_Father: {fileID: 1611687053}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1194632666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194632664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede9f66af097b2540990bdd9dc0f3154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthText: {fileID: 546838084}
+  _health: 10
+  _attack: 3
+  _animalGO: {fileID: 1501983497}
 --- !u!1 &1233842684
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,14 +880,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6bd4cbf1e2b6484aa39d02d2d4c8ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animalGO: {fileID: 1501983497}
   battleText: {fileID: 110271330}
   turnCounterText: {fileID: 1746675820}
   attackButton: {fileID: 153138290}
-  playerCanMove: 0
-  enemyAlive: 1
-  enemyHealth: 990
-  enemyDamage: 99
-  playerHealth: 990
+  turnCounter: 1
+  playerHealth: 0
 --- !u!4 &1233842686
 Transform:
   m_ObjectHideFlags: 0
@@ -1022,25 +1148,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add2945b2de1a2d4b868330db655c5fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthText: {fileID: 1716298707}
-  stateText: {fileID: 0}
-  attackText: {fileID: 0}
-  defenceText: {fileID: 0}
-  speedText: {fileID: 0}
-  dodgeText: {fileID: 0}
-  physResText: {fileID: 0}
-  fireResText: {fileID: 0}
-  elecResText: {fileID: 0}
-  descText: {fileID: 0}
-  health: 999
-  maxHealth: 999
-  attack: 0
-  defence: 0
-  speed: 0
-  dodgeChance: 0
-  physRes: 0
-  fireRes: 0
-  elecRes: 0
+  _healthText: {fileID: 1716298707}
+  _stateText: {fileID: 0}
+  _attackText: {fileID: 0}
+  _defenceText: {fileID: 0}
+  _speedText: {fileID: 0}
+  _dodgeText: {fileID: 0}
+  _descText: {fileID: 0}
+  _health: 10
+  _maxHealth: 10
+  _attack: 3
+  _defence: 0
+  _speed: 0
+  _dodgeChance: 0
+  _turnGO: {fileID: 1233842684}
+  _playerGO: {fileID: 1194632664}
 --- !u!114 &1501983502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1224,7 +1346,7 @@ RectTransform:
   - {fileID: 110271329}
   - {fileID: 1746675819}
   - {fileID: 1501983498}
-  - {fileID: 153138289}
+  - {fileID: 1194632665}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

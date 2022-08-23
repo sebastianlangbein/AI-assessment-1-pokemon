@@ -6,51 +6,61 @@ using UnityEngine.UI;
 public class AnimalAi : MonoBehaviour
 {
     //Text and float fields for boss stats
-    public Text healthText, stateText, attackText, defenceText, speedText, 
-        dodgeText, physResText, fireResText, elecResText, descText;
-    public float health, maxHealth, attack, defence, speed,
-        dodgeChance, physRes, fireRes, elecRes;
+    [SerializeField] private Text _healthText, _stateText, _attackText, _defenceText, _speedText, _dodgeText, _descText;
+    [SerializeField] private float _health, _maxHealth, _attack, _defence, _speed, _dodgeChance;
+    [SerializeField] private GameObject _turnGO, _playerGO;
+    private PlayerManager _playerManager;
+    private TurnManager _turnManager;
 
     private void Start()
     {
+        _turnManager = _turnGO.GetComponent<TurnManager>();
+        _playerManager = _playerGO.GetComponent<PlayerManager>();
         UpdateUI();
     }
 
-    public void UpdateUI()
+    private void UpdateUI()
     {
-        //Change the text box to show actual boss health
-        healthText.text = health.ToString();
+        _healthText.text = _health.ToString();
     }
 
-    public void Damage(int damageAmount)
+    public float EnemyAttack()
     {
-        //if health is negative after an attack from player
-        if (health - damageAmount < 0)
+        return _attack;
+    }
+
+    public void EnemyTurn()
+    {
+        _playerManager.PlayerTakeDamage();
+    }
+
+    public void EnemyTakeDamage()
+    {
+        float playerDamageAmnt = _playerManager.PlayerAttack();
+        if (_health - playerDamageAmnt < 1)
         {
-            //set health to 0 to avoid negative health
-            health = 0;
+            _health = 1;
         }
         else
         {
-            //health equals health minus damage
-            health -= damageAmount;
+            _health -= playerDamageAmnt;
         }
         UpdateUI();
     }
 
-    public void Heal(int healAmount)
-    {
-        //if health is greater than max health after a heal
-        if (health + healAmount > maxHealth)
-        {
-            //set to max health
-            health = maxHealth;
-        }
-        else
-        {
-            //health equals health plus heal
-            health += healAmount;
-        }
-        UpdateUI();
-    }
+    //public void Heal(int healAmount)
+    //{
+    //    //if health is greater than max health after a heal
+    //    if (health + healAmount > maxHealth)
+    //    {
+    //        //set to max health
+    //        health = maxHealth;
+    //    }
+    //    else
+    //    {
+    //        //health equals health plus heal
+    //        health += healAmount;
+    //    }
+    //    UpdateUI();
+    //}
 }

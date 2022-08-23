@@ -5,17 +5,16 @@ using UnityEngine.UI;
 
 public class TurnManager : MonoBehaviour
 {
+    private AnimalAi _animalAi;
+    [SerializeField] private GameObject _animalGO;
+
     public Text battleText;
     public Text turnCounterText;
     public Button attackButton;
 
-    public static int turnCounter = 1;
+    public int turnCounter = 1;
 
-    public bool playerCanMove;
-    public bool enemyAlive = true;
-
-    public float enemyHealth;
-    public float enemyDamage;
+    public static bool playerCanMove;
 
     public float playerHealth;
 
@@ -26,6 +25,7 @@ public class TurnManager : MonoBehaviour
 
     private void Start()
     {
+        _animalAi = _animalGO.GetComponent<AnimalAi>();
         StartCoroutine(Turn());
     }
 
@@ -41,8 +41,9 @@ public class TurnManager : MonoBehaviour
             yield return null;
         }
 
+        attackButton.interactable = false;
         yield return new WaitForSeconds(2);
-        EnemyAttack();
+        _animalAi.EnemyTurn();
         turnCounter++;
         Debug.Log("Turn end");
         StartCoroutine(Turn());
@@ -51,34 +52,5 @@ public class TurnManager : MonoBehaviour
     private void UpdateUI()
     {
         turnCounterText.text = $"Turn {turnCounter}";
-    }
-
-    private void EnemyAttack()
-    {
-        if (playerHealth - enemyDamage < 0)
-        {
-            playerHealth = 0;
-        }
-        else
-        {
-            playerHealth -= enemyDamage;
-        }
-        battleText.text = $"Enemy attacks for {enemyDamage}";
-    }
-
-    public void PlayerAttack(float playerDamageAmnt)
-    {
-        attackButton.interactable = false;
-        playerCanMove = false;
-
-        if (enemyHealth - playerDamageAmnt < 0)
-        {
-            enemyHealth = 1;
-        }
-        else
-        {
-            enemyHealth -= playerDamageAmnt;
-        }
-        battleText.text = $"Player attacks for {playerDamageAmnt}";
     }
 }

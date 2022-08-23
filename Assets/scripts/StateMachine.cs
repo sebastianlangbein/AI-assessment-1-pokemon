@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AnimalAi))]
 public class StateMachine : MonoBehaviour
 {
     public enum State
@@ -20,7 +19,6 @@ public class StateMachine : MonoBehaviour
     private void Start()
     {
         _animalAi = GetComponent<AnimalAi>();
-
         NextState();
     }
 
