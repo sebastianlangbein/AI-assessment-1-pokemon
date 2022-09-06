@@ -11,6 +11,8 @@ public class AnimalAi : MonoBehaviour
     [SerializeField] private GameObject _turnGO, _playerGO;
     private PlayerManager _playerManager;
     private TurnManager _turnManager;
+    private string[] _moveHeight = { "high", "mid", "low" };
+
 
     private void Start()
     {
@@ -22,6 +24,12 @@ public class AnimalAi : MonoBehaviour
     private void UpdateUI()
     {
         _healthText.text = _health.ToString();
+    }
+
+    public string MoveSelect()
+    {
+        int move = Random.Range(0, 3);
+        return _moveHeight[move];
     }
 
     public float EnemyAttack()
