@@ -42,8 +42,9 @@ public class TurnManager : MonoBehaviour
         }
 
         attackButton.interactable = false;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         _animalManager.EnemyTurn();
+        yield return new WaitForSeconds(1);
         turnCounter++;
         Debug.Log("Turn end");
         StartCoroutine(Turn());

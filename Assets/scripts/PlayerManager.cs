@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float _health, _attack;
     [SerializeField] private GameObject _animalGO;
     private AnimalManager _animalManager;
-    private string playerBlock;
+    private List<string> _playerBlock = new List<string>();
     private void Start()
     {
         _animalManager = _animalGO.GetComponent<AnimalManager>();
@@ -17,7 +17,7 @@ public class PlayerManager : MonoBehaviour
     }
     public void SetBlock(string blockHeight)
     {
-        playerBlock = blockHeight;
+        _playerBlock.Add(blockHeight);
     }
     private void UpdateUI()
     {
@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
     {
         float damage = _animalManager.EnemyAttack();
         string enemyMoveHeight = _animalManager.MoveSelect();
-        if (enemyMoveHeight == playerBlock)
+        if (_playerBlock.Contains(enemyMoveHeight))
         {
             //blocked the attack
         }
@@ -43,6 +43,7 @@ public class PlayerManager : MonoBehaviour
                 _health -= damage;
             }
         }
+        _playerBlock.Clear();
         UpdateUI();
     }
 
@@ -50,7 +51,6 @@ public class PlayerManager : MonoBehaviour
     {
 
         TurnManager.playerCanMove = false;
-        playerBlock = null;
         _animalManager.EnemyTakeDamage();
     }
 
