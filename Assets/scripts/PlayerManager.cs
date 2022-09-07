@@ -8,11 +8,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Text _healthText; 
     [SerializeField] private float _health, _attack;
     [SerializeField] private GameObject _animalGO;
-    private AnimalAi _animalAi;
+    private AnimalManager _animalManager;
     private string playerBlock;
     private void Start()
     {
-        _animalAi = _animalGO.GetComponent<AnimalAi>();
+        _animalManager = _animalGO.GetComponent<AnimalManager>();
         UpdateUI();
     }
     public void SetBlock(string blockHeight)
@@ -24,29 +24,10 @@ public class PlayerManager : MonoBehaviour
         _healthText.text = _health.ToString();
     }
 
-    //public void Minus()
-    //{
-    //    int[] attack = new int[3] { 1, 1, 1 };
-    //    int[] block = new int[3] { 0, 0, 0 };
-    //    int[] damage = new int[3];
-    //    int damageMultiplier = 2;
-    //    int sum = 0;
-    //    for (int i = 0; i < attack.Length; i++)
-    //    {
-    //        damage[i] = attack[i] - block[i];
-    //        if (damage[i] < 0)
-    //        {
-    //            damage[i] = 0;
-    //        }
-    //        sum += damage[i];
-    //    }
-    //    print(sum * damageMultiplier);
-    //}
-
     public void PlayerTakeDamage()
     {
-        float damage = _animalAi.EnemyAttack();
-        string enemyMoveHeight = _animalAi.MoveSelect();
+        float damage = _animalManager.EnemyAttack();
+        string enemyMoveHeight = _animalManager.MoveSelect();
         if (enemyMoveHeight == playerBlock)
         {
             //blocked the attack
@@ -70,7 +51,7 @@ public class PlayerManager : MonoBehaviour
 
         TurnManager.playerCanMove = false;
         playerBlock = null;
-        _animalAi.EnemyTakeDamage();
+        _animalManager.EnemyTakeDamage();
     }
 
     public float PlayerAttack()

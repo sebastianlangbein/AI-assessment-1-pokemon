@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TurnManager : MonoBehaviour
 {
-    private AnimalAi _animalAi;
+    private AnimalManager _animalManager;
     [SerializeField] private GameObject _animalGO;
 
     public Text battleText;
@@ -25,7 +25,7 @@ public class TurnManager : MonoBehaviour
 
     private void Start()
     {
-        _animalAi = _animalGO.GetComponent<AnimalAi>();
+        _animalManager = _animalGO.GetComponent<AnimalManager>();
         StartCoroutine(Turn());
     }
 
@@ -43,7 +43,7 @@ public class TurnManager : MonoBehaviour
 
         attackButton.interactable = false;
         yield return new WaitForSeconds(2);
-        _animalAi.EnemyTurn();
+        _animalManager.EnemyTurn();
         turnCounter++;
         Debug.Log("Turn end");
         StartCoroutine(Turn());

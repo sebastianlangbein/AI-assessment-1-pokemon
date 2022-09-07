@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AnimalAi : MonoBehaviour
+public class AnimalManager : MonoBehaviour
 {
     //Text and float fields for boss stats
     [SerializeField] private Text _healthText, _stateText, _attackText, _defenceText, _speedText, _dodgeText, _descText;

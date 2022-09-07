@@ -14,11 +14,11 @@ public class StateMachine : MonoBehaviour
     //Ai's current state
     [SerializeField] private State _state;
 
-    private AnimalAi _animalAi;
+    private AnimalManager _animalManager;
 
     private void Start()
     {
-        _animalAi = GetComponent<AnimalAi>();
+        _animalManager = GetComponent<AnimalManager>();
         NextState();
     }
 
