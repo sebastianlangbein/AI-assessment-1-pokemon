@@ -5,49 +5,64 @@ using UnityEngine.UI;
 
 public class AnimalManager : MonoBehaviour
 {
-    //Text and float fields for boss stats
-    [SerializeField] private Text _healthText, _stateText, _attackText, _defenceText, _speedText, _dodgeText, _descText;
-    [SerializeField] private float _health, _maxHealth, _attack, _defence, _speed, _dodgeChance;
-    [SerializeField] private GameObject _turnGO, _playerGO;
-    private PlayerManager _playerManager;
-    private TurnManager _turnManager;
-    private string[] _moveHeight = { "high", "mid", "low" };
+    [SerializeField] private Text _healthText, _stateText, _attackText, _descText;
+    [SerializeField] private int _health, _maxHealth, _attack;
 
+    [SerializeField] private PlayerManager _playerManager;
+    [SerializeField] private TurnManager _turnManager;
+
+    public List<string> curMoveList = new List<string>();
+    private string[] _moveList = { "high", "mid", "low" };
+
+    private int _moveAmount = 3;
+    public bool enemyIsMoving = false;
 
     private void Start()
     {
-        _turnManager = _turnGO.GetComponent<TurnManager>();
-        _playerManager = _playerGO.GetComponent<PlayerManager>();
         UpdateUI();
     }
 
     private void UpdateUI()
     {
-        _healthText.text = _health.ToString();
+        _attackText.text = $"Attack: {_attack}";
+        _healthText.text = $"Health: {_health}";
     }
 
-    public string MoveSelect()
+    public void MoveSelect()
     {
-        int move = Random.Range(0, 3);
-        return _moveHeight[move];
-    }
-
-    public float EnemyAttack()
-    {
-        return _attack;
+        _descText.text = "ANIMAL is charging up ";
+        for (int i = 0; i < _moveAmount; i++)
+        {
+            int moveHeightIndex = Random.Range(0, _moveList.Length);
+            string move = _moveList[moveHeightIndex];
+            curMoveList.Add(move);
+            _descText.text += $"{curMoveList[i]}, ";
+        }
+        _descText.text += "attacks";
     }
 
     public void EnemyTurn()
     {
-        _playerManager.PlayerTakeDamage();
+        StartCoroutine(EnemyAttack());
     }
 
-    public void EnemyTakeDamage()
+    private IEnumerator EnemyAttack()
     {
-        float playerDamageAmnt = _playerManager.PlayerAttack();
-        if (_health - playerDamageAmnt < 1)
+        enemyIsMoving = true;
+        for (int i = 0; i < _moveAmount; i++)
         {
-            _health = 1;
+            _playerManager.PlayerTakeDamage(_attack,curMoveList[i]);
+            yield return new WaitForSeconds(1);
+        }
+        enemyIsMoving = false;
+        _descText.text = "Recharging...";
+    }
+
+    public void EnemyTakeDamage(int playerDamageAmnt)
+    {
+        if (_health - playerDamageAmnt < 0)
+        {
+            _health = 0;
         }
         else
         {

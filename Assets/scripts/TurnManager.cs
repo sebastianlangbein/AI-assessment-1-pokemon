@@ -3,55 +3,72 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class TurnManager : MonoBehaviour
 {
-    private AnimalManager _animalManager;
-    [SerializeField] private GameObject _animalGO;
+    [SerializeField] private AnimalManager _animalManager;
+    [SerializeField] private PlayerManager _playerManager;
 
     public Text battleText;
-    public Text turnCounterText;
-    public Button attackButton;
+    [SerializeField] private Text turnCounterText;
 
-    public int turnCounter = 1;
+    private int _turnCounter = 1;
 
-    public static bool playerCanMove;
-
-    public float playerHealth;
-
-    private void Awake()
+    public int TurnCounter
     {
-        attackButton.interactable = false;
+        get { return _turnCounter; }
+
+        set
+        {
+            _turnCounter = value;
+        }
     }
 
     private void Start()
     {
-        _animalManager = _animalGO.GetComponent<AnimalManager>();
+        StartCoroutine(Turn());
+    }
+
+    private void TurnStart()
+    {
+        UpdateUI();
+        _animalManager.MoveSelect();
+        _playerManager.PlayerCanMove();
+        battleText.text = "YOUR TURN";
+    }
+
+    private void TurnEnd()
+    {
+        _animalManager.curMoveList.Clear();
+        _playerManager.playerBlock.Clear();
+        TurnCounter++;
         StartCoroutine(Turn());
     }
 
     private IEnumerator Turn()
     {
-        Debug.Log($"Turn {turnCounter} start");
-        UpdateUI();
-        playerCanMove = true;
-        attackButton.interactable = true;
+        TurnStart();
 
-        while (playerCanMove)
+        while (_playerManager.playerCanMove)
         {
             yield return null;
         }
 
-        attackButton.interactable = false;
-        yield return new WaitForSeconds(1);
+        battleText.text = "ENEMY TURN";
+        yield return new WaitForSeconds(2);
+
         _animalManager.EnemyTurn();
-        yield return new WaitForSeconds(1);
-        turnCounter++;
-        Debug.Log("Turn end");
-        StartCoroutine(Turn());
+        while (_animalManager.enemyIsMoving)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(3);
+
+        TurnEnd();
     }
 
     private void UpdateUI()
     {
-        turnCounterText.text = $"Turn {turnCounter}";
+        turnCounterText.text = $"Turn {TurnCounter}";
     }
 }

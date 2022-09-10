@@ -43,7 +43,7 @@ public class StateMachine : MonoBehaviour
 
     private IEnumerator AttackState()
     {
-        Debug.Log("Attack: Enter");
+        //Debug.Log("Attack: Enter");
         while (_state == State.Attack)
         {
             //some yield is required for a coroutine

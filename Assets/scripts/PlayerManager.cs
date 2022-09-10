@@ -6,57 +6,84 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private Text _healthText; 
-    [SerializeField] private float _health, _attack;
-    [SerializeField] private GameObject _animalGO;
-    private AnimalManager _animalManager;
-    private List<string> _playerBlock = new List<string>();
-    private void Start()
+    [SerializeField] private int _health, _attack;
+
+    [SerializeField] private AnimalManager _animalManager;
+
+    public List<string> playerBlock = new List<string>();
+
+    public bool playerCanMove;
+    public int energy;
+
+    private void Awake()
     {
-        _animalManager = _animalGO.GetComponent<AnimalManager>();
-        UpdateUI();
-    }
-    public void SetBlock(string blockHeight)
-    {
-        _playerBlock.Add(blockHeight);
-    }
-    private void UpdateUI()
-    {
-        _healthText.text = _health.ToString();
+        playerCanMove = false;
     }
 
-    public void PlayerTakeDamage()
+    private void Start()
     {
-        float damage = _animalManager.EnemyAttack();
-        string enemyMoveHeight = _animalManager.MoveSelect();
-        if (_playerBlock.Contains(enemyMoveHeight))
+        UpdateUI();
+    }
+
+    public void SetBlock(string blockHeight)
+    {
+        playerBlock.Add(blockHeight);
+        foreach (string block in playerBlock)
         {
-            //blocked the attack
+            print(block);
+        }
+    }
+
+    private void UpdateUI()
+    {
+        _healthText.text = $"Health: {_health}";
+    }
+
+    public void OnMoveEnergyDown()
+    {
+        energy--;
+        if (energy <= 0)
+        {
+            PlayerCannotMove();
+        }
+        print(energy);
+    }
+
+    public void PlayerCanMove()
+    {
+        energy = 3;
+        playerCanMove = true;
+    }
+
+    public void PlayerCannotMove()
+    {
+        playerCanMove = false;
+    }
+
+    public void PlayerTakeDamage(int damage, string enemyMoveHeight)
+    {
+        if (playerBlock.Contains(enemyMoveHeight))
+        {
+            print("blocked the attack");
         }
         else
         {
             if (_health - damage < 0)
             {
                 _health = 0;
+                print("dead");
             }
             else
             {
                 _health -= damage;
+                print($"took {damage} damage");
             }
         }
-        _playerBlock.Clear();
         UpdateUI();
     }
 
     public void PlayerTurn()
     {
-
-        TurnManager.playerCanMove = false;
-        _animalManager.EnemyTakeDamage();
-    }
-
-    public float PlayerAttack()
-    {
-        //different attacks return different values
-        return _attack;
+        _animalManager.EnemyTakeDamage(_attack);
     }
 }
