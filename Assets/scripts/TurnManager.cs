@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
 public class TurnManager : MonoBehaviour
 {
     [SerializeField] private AnimalManager _animalManager;
@@ -41,7 +40,7 @@ public class TurnManager : MonoBehaviour
     private void TurnEnd()
     {
         _animalManager.curMoveList.Clear();
-        _playerManager.playerBlock.Clear();
+        _playerManager.EndTurnStuff();
         TurnCounter++;
         StartCoroutine(Turn());
     }
@@ -63,7 +62,7 @@ public class TurnManager : MonoBehaviour
         {
             yield return null;
         }
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         TurnEnd();
     }

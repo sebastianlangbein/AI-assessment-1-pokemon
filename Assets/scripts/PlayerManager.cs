@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private Text _healthText,_energyText,_blockingText; 
+    [SerializeField] private Text _healthText, _energyText, _blockingText;
     [SerializeField] private int _health, _attack;
     [SerializeField] private GameObject _attackButtons;
     [SerializeField] private GameObject _retryButton;
@@ -72,6 +72,12 @@ public class PlayerManager : MonoBehaviour
         _attackButtons.SetActive(false);
     }
 
+    public void EndTurnStuff()
+    {
+        playerBlock.Clear();
+        _blockingText.text = "Blocking\n";
+    }
+
     private void Death()
     {
         Destroy(gameObject);
@@ -81,7 +87,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (playerBlock.Contains(enemyMoveHeight))
         {
-            _turnManager.battleText.text = "BLOCKED THE ATTACK!";
+            _turnManager.battleText.text = "BLOCKED THE ATTACK";
         }
         else
         {

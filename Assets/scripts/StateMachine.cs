@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StateMachine : MonoBehaviour
 {
     public enum State
     {
-        Attack,
-        Tank,
-        UltraInstinct
+        Dog = 0,
+        Monkey = 1,
+        Croc = 2
     }
 
     //Ai's current state
     [SerializeField] private State _state;
+    [SerializeField] private Text _stateDescText;
+    public State CurrentState
+    {
+        get { return _state; }
+        set
+        {
+            _state = value;
+        }
+    }
 
     private AnimalManager _animalManager;
 
@@ -24,16 +34,16 @@ public class StateMachine : MonoBehaviour
 
     private void NextState()
     {
-        switch (_state)
+        switch (CurrentState)
         {
-            case State.Attack:
-                StartCoroutine(AttackState());
+            case State.Dog:
+                StartCoroutine(DogState());
                 break;
-            case State.Tank:
-                StartCoroutine(TankState());
+            case State.Monkey:
+                StartCoroutine(MonkeyState());
                 break;
-            case State.UltraInstinct:
-                StartCoroutine(UIState());
+            case State.Croc:
+                StartCoroutine(CrocState());
                 break;
             default:
                 Debug.LogWarning("_state doesn't exist within nextState function");
@@ -41,25 +51,87 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    private IEnumerator AttackState()
+    public void StateCheck()
     {
-        //Debug.Log("Attack: Enter");
-        while (_state == State.Attack)
+        if (_animalManager.Health == 1)
         {
-            //some yield is required for a coroutine
-            //wait a single frame
+            CurrentState = State.Croc;
+        }
+        else
+        {
+            //health     0 1 2 3 4 5 6 7 8 9 10
+            //health/2   0 0 1 1 2 2 3 3 4 4 5
+            //health/2%2 0 0 1 1 0 0 1 1 0 0 1
+            CurrentState = (State)((_animalManager.Health - 1) / 2 % 2);
+        }
+    }
+
+    private void DogStats()
+    {
+        _stateDescText.text = "DOG FORM\n" +
+            "A tenacious and head-strong form, " +
+            "it favours attacking moves but has low defence. " +
+            "It has strong mid and low attacks, but a weak high attack.";
+        _animalManager.moveDictionary["high"] = 1;
+        _animalManager.moveDictionary["mid"] = 3;
+        _animalManager.moveDictionary["low"] = 3;
+        _animalManager.moveDictionary.Add("bite", 2);
+        _animalManager.moveDictionary.Remove("heal");
+    }
+
+    private IEnumerator DogState()
+    {
+        DogStats();
+        while (CurrentState == State.Dog)
+        {
             yield return null;
         }
         NextState();
     }
 
-    private IEnumerator TankState()
+    private void MonkeyStats()
     {
-        yield return null;
+        _stateDescText.text = "MONKEY FORM\n" +
+            "A whimsical and carefree form, " +
+            "it favours healing moves and has high defence. " +
+            "It has a strong high attack, but weak mid and low attacks.";
+        _animalManager.moveDictionary["high"] = 3;
+        _animalManager.moveDictionary["mid"] = 1;
+        _animalManager.moveDictionary["low"] = 1;
+        _animalManager.moveDictionary.Add("heal", 2);
+        _animalManager.moveDictionary.Remove("bite");
     }
 
-    private IEnumerator UIState()
+    private IEnumerator MonkeyState()
     {
-        yield return null;
+        MonkeyStats();
+        while (CurrentState == State.Monkey)
+        {
+            yield return null;
+        }
+        NextState();
+    }
+
+    private void CrocStats()
+    {
+        _stateDescText.text = "CROC FORM\n" +
+            "The most powerful form. An unrelenting attacker and powerful defender, " +
+            "it favours attacking and healing moves, and has very high defence. " +
+            "It has strong high, mid and low attacks.";
+        _animalManager.moveDictionary["high"] = 3;
+        _animalManager.moveDictionary["mid"] = 3;
+        _animalManager.moveDictionary["low"] = 3;
+        _animalManager.moveDictionary.Add("heal", 2);
+        _animalManager.moveDictionary.Add("bite", 2);
+    }
+
+    private IEnumerator CrocState()
+    {
+        CrocStats();
+        while (CurrentState == State.Croc)
+        {
+            yield return null;
+        }
+        NextState();
     }
 }

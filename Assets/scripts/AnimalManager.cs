@@ -6,39 +6,58 @@ using UnityEngine.UI;
 public class AnimalManager : MonoBehaviour
 {
     [SerializeField] private Text _healthText, _stateText, _attackText, _descText;
-    [SerializeField] private int _health, _maxHealth, _attack;
+    [SerializeField] private int _health, _maxHealth;
+    public int Health
+    {
+        get { return _health; }
+        set
+        {
+            _health = value;
+            _stateMachine.StateCheck();
+        }
+    }
 
     [SerializeField] private PlayerManager _playerManager;
-    [SerializeField] private TurnManager _turnManager;
+    [SerializeField] private StateMachine _stateMachine;
 
     public List<string> curMoveList = new List<string>();
-    private string[] _moveList = { "high", "mid", "low" };
+    //private string[] _moveList = { "high", "mid", "low" };
 
-    private int _moveAmount = 3;
+    public int attack;
+    public int moveAmount = 3;
+    public Dictionary<string, int> moveDictionary = new Dictionary<string, int>()
+    {
+        ["high"] = 0,
+        ["mid"] = 0,
+        ["low"] = 0
+    };
+
     public bool enemyIsMoving = false;
 
     private void Start()
     {
         UpdateUI();
+        _stateMachine.StateCheck();
     }
 
     private void UpdateUI()
     {
-        _attackText.text = $"Attack: {_attack}";
-        _healthText.text = $"Health: {_health}";
+        _attackText.text = $"Attack: {attack}";
+        _healthText.text = $"Health: {Health}";
+        _stateText.text = $"{_stateMachine.CurrentState} Form";
     }
 
     public void MoveSelect()
     {
-        _descText.text = "ANIMAL is charging up ";
-        for (int i = 0; i < _moveAmount; i++)
+        _descText.text = "ANIMAL is charging\n";
+        for (int i = 0; i < moveAmount; i++)
         {
             int moveHeightIndex = Random.Range(0, _moveList.Length);
             string move = _moveList[moveHeightIndex];
             curMoveList.Add(move);
             _descText.text += $"{curMoveList[i]}, ";
         }
-        _descText.text += "attacks";
+        _descText.text += "\nattacks";
     }
 
     public void EnemyTurn()
@@ -49,9 +68,9 @@ public class AnimalManager : MonoBehaviour
     private IEnumerator EnemyAttack()
     {
         enemyIsMoving = true;
-        for (int i = 0; i < _moveAmount; i++)
+        for (int i = 0; i < moveAmount; i++)
         {
-            _playerManager.PlayerTakeDamage(_attack,curMoveList[i]);
+            _playerManager.PlayerTakeDamage(attack,curMoveList[i]);
             yield return new WaitForSeconds(1);
         }
         enemyIsMoving = false;
@@ -60,13 +79,13 @@ public class AnimalManager : MonoBehaviour
 
     public void EnemyTakeDamage(int playerDamageAmnt)
     {
-        if (_health - playerDamageAmnt < 0)
+        if (Health - playerDamageAmnt < 1)
         {
-            _health = 0;
+            Health = 1;
         }
         else
         {
-            _health -= playerDamageAmnt;
+            Health -= playerDamageAmnt;
         }
         UpdateUI();
     }
