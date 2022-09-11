@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class TurnManager : MonoBehaviour
@@ -70,5 +71,10 @@ public class TurnManager : MonoBehaviour
     private void UpdateUI()
     {
         turnCounterText.text = $"Turn {TurnCounter}";
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(0);
     }
 }
