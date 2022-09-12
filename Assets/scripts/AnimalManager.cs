@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AnimalManager : MonoBehaviour
 {
-    [SerializeField] private Text _healthText, _stateText, _attackText, _descText;
+    [SerializeField] private Text _healthText, _stateText, _defenceText, _descText;
     [SerializeField] private int _health, _maxHealth;
+    [SerializeField] private Sprite _dogImg, _monkeyImg, _crocImg;
+
     public int Health
     {
         get { return _health; }
@@ -20,12 +23,14 @@ public class AnimalManager : MonoBehaviour
     [SerializeField] private PlayerManager _playerManager;
     [SerializeField] private StateMachine _stateMachine;
 
-    public List<string> curMoveList = new List<string>();
-    private string[] _moveList = { "high", "mid", "low" };
+    private RectTransform _rt;
+    private Image _sprite;
 
-    public int attack;
+    private int _defence;
     public int moveAmount = 3;
-    public Dictionary<string, int> moveDictionary = new Dictionary<string, int>()
+
+    public List<string> curMoveList = new List<string>();
+    public Dictionary<string, int> moveDict = new Dictionary<string, int>()
     {
         ["high"] = 0,
         ["mid"] = 0,
@@ -36,24 +41,30 @@ public class AnimalManager : MonoBehaviour
 
     private void Start()
     {
+        _rt = GetComponent<RectTransform>();
+        _sprite = GetComponent<Image>();
         UpdateUI();
         _stateMachine.StateCheck();
     }
 
     private void UpdateUI()
     {
-        _attackText.text = $"Attack: {attack}";
+        _defenceText.text = $"Defence: {_defence}";
         _healthText.text = $"Health: {Health}";
         _stateText.text = $"{_stateMachine.CurrentState} Form";
     }
 
     public void MoveSelect()
     {
+        //random dictionary element key
+        //int dictIndex = Random.Range(0, moveDict.Count);
+        //moveDict.ElementAt(dictIndex).Key;
+
         _descText.text = "ANIMAL is charging\n";
         for (int i = 0; i < moveAmount; i++)
         {
-            int moveHeightIndex = Random.Range(0, _moveList.Length);
-            string move = _moveList[moveHeightIndex];
+            int dictIndex = Random.Range(0, moveDict.Count);
+            string move = moveDict.ElementAt(dictIndex).Key;
             curMoveList.Add(move);
             _descText.text += $"{curMoveList[i]}, ";
         }
@@ -70,7 +81,8 @@ public class AnimalManager : MonoBehaviour
         enemyIsMoving = true;
         for (int i = 0; i < moveAmount; i++)
         {
-            _playerManager.PlayerTakeDamage(attack,curMoveList[i]);
+            int attackDmg = moveDict[curMoveList[i]];
+            _playerManager.PlayerTakeDamage(attackDmg,curMoveList[i]);
             yield return new WaitForSeconds(1);
         }
         enemyIsMoving = false;
@@ -79,14 +91,51 @@ public class AnimalManager : MonoBehaviour
 
     public void EnemyTakeDamage(int playerDamageAmnt)
     {
-        if (Health - playerDamageAmnt < 1)
+        int trueDamage = playerDamageAmnt - _defence;
+        if (Health - trueDamage < 1)
         {
             Health = 1;
         }
         else
         {
-            Health -= playerDamageAmnt;
+            Health -= trueDamage;
         }
+        UpdateUI();
+    }
+
+    public void DogStats()
+    {
+        _defence = 0;
+        moveAmount = 3;
+        moveDict["high"] = 1;
+        moveDict["mid"] = 3;
+        moveDict["low"] = 3;
+        _sprite.sprite = _dogImg;
+        _rt.sizeDelta = new Vector2(129, 157);
+        UpdateUI();
+    }
+
+    public void MonkeyStats()
+    {
+        _defence = 1;
+        moveAmount = 3;
+        moveDict["high"] = 3;
+        moveDict["mid"] = 1;
+        moveDict["low"] = 1;
+        _sprite.sprite = _monkeyImg;
+        _rt.sizeDelta = new Vector2(174, 128);
+        UpdateUI();
+    }
+
+    public void CrocStats()
+    {
+        _defence = 2;
+        moveAmount = 4;
+        moveDict["high"] = 3;
+        moveDict["mid"] = 3;
+        moveDict["low"] = 3;
+        _sprite.sprite = _crocImg;
+        _rt.sizeDelta = new Vector2(129, 128);
         UpdateUI();
     }
 

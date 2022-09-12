@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private Text _healthText, _energyText, _blockingText;
-    [SerializeField] private int _health, _attack;
+    [SerializeField] private int _health, _attack, _attackRange, _blockAmount;
     [SerializeField] private GameObject _attackButtons;
     [SerializeField] private GameObject _retryButton;
 
@@ -85,9 +85,11 @@ public class PlayerManager : MonoBehaviour
 
     public void PlayerTakeDamage(int damage, string enemyMoveHeight)
     {
+        int blockedDamage = Mathf.Max(damage - _blockAmount, 0);
         if (playerBlock.Contains(enemyMoveHeight))
         {
-            _turnManager.battleText.text = "BLOCKED THE ATTACK";
+            _health -= blockedDamage;
+            _turnManager.battleText.text = $"BLOCKED THE ATTACK AND TOOK {blockedDamage} DAMAGE";
         }
         else
         {
@@ -109,6 +111,8 @@ public class PlayerManager : MonoBehaviour
 
     public void PlayerTurn()
     {
+        //int randAttack = Random.Range(_attack, _attack + (_attackRange + 1));
+        //_animalManager.EnemyTakeDamage(randAttack);
         _animalManager.EnemyTakeDamage(_attack);
     }
 }
