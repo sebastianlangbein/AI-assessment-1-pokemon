@@ -8,6 +8,7 @@ public class TurnManager : MonoBehaviour
 {
     [SerializeField] private AnimalManager _animalManager;
     [SerializeField] private PlayerManager _playerManager;
+    [SerializeField] private StateMachine _stateMachine;
 
     public Text battleText;
     [SerializeField] private Text turnCounterText;

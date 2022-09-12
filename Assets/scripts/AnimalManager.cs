@@ -8,7 +8,7 @@ public class AnimalManager : MonoBehaviour
 {
     [SerializeField] private Text _healthText, _stateText, _defenceText, _descText;
     [SerializeField] private int _health, _maxHealth;
-    [SerializeField] private Sprite _dogImg, _monkeyImg, _crocImg;
+    [SerializeField] private Sprite _dogImg, _monkeyImg, _crocImg, _chickenImg;
 
     public int Health
     {
@@ -44,7 +44,7 @@ public class AnimalManager : MonoBehaviour
         _rt = GetComponent<RectTransform>();
         _sprite = GetComponent<Image>();
         UpdateUI();
-        _stateMachine.StateCheck();
+        print($"moveAmount = {moveAmount} from start");
     }
 
     private void UpdateUI()
@@ -59,6 +59,7 @@ public class AnimalManager : MonoBehaviour
         //random dictionary element key
         //int dictIndex = Random.Range(0, moveDict.Count);
         //moveDict.ElementAt(dictIndex).Key;
+        print($"moveAmount = {moveAmount} from moveselect");
 
         _descText.text = "ANIMAL is charging\n";
         for (int i = 0; i < moveAmount; i++)
@@ -78,11 +79,13 @@ public class AnimalManager : MonoBehaviour
 
     private IEnumerator EnemyAttack()
     {
+        print($"moveAmount = {moveAmount} from enemyattack");
+
         enemyIsMoving = true;
         for (int i = 0; i < moveAmount; i++)
         {
             int attackDmg = moveDict[curMoveList[i]];
-            _playerManager.PlayerTakeDamage(attackDmg,curMoveList[i]);
+            _playerManager.PlayerTakeDamage(attackDmg, curMoveList[i]);
             yield return new WaitForSeconds(1);
         }
         enemyIsMoving = false;
@@ -105,7 +108,7 @@ public class AnimalManager : MonoBehaviour
 
     public void DogStats()
     {
-        _defence = 0;
+        _defence = 1;
         moveAmount = 3;
         moveDict["high"] = 1;
         moveDict["mid"] = 3;
@@ -117,7 +120,7 @@ public class AnimalManager : MonoBehaviour
 
     public void MonkeyStats()
     {
-        _defence = 1;
+        _defence = 2;
         moveAmount = 3;
         moveDict["high"] = 3;
         moveDict["mid"] = 1;
@@ -137,6 +140,17 @@ public class AnimalManager : MonoBehaviour
         _sprite.sprite = _crocImg;
         _rt.sizeDelta = new Vector2(129, 128);
         UpdateUI();
+    }
+
+    public void UltInstStats()
+    {
+        _defence = 99;
+        moveAmount = 10;
+        moveDict["high"] = 99;
+        moveDict["mid"] = 99;
+        moveDict["low"] = 99;
+        _sprite.sprite = _chickenImg;
+        _rt.sizeDelta = new Vector2(128, 145);
     }
 
     //public void Heal(int healAmount)

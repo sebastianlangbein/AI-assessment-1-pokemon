@@ -5,29 +5,31 @@ using UnityEngine.UI;
 
 public class StateMachine : MonoBehaviour
 {
+    //Possible states
     public enum State
     {
-        Dog = 0,
-        Monkey = 1,
-        Croc = 2
+        Monkey = 0,
+        Dog = 1,
+        Croc = 2,
+        ultInst = 3
     }
 
     //Ai's current state
-    [SerializeField] private State _state;
+    [SerializeField] private State _currentState;
     [SerializeField] private Text _stateDescText;
+
+    //Current state property
     public State CurrentState
     {
-        get { return _state; }
-        set
-        {
-            _state = value;
-        }
+        get { return _currentState; }
+        set { _currentState = value; }
     }
 
     [SerializeField] private AnimalManager _animalManager;
 
     private void Start()
     {
+        StateCheck();
         NextState();
     }
 
@@ -44,6 +46,9 @@ public class StateMachine : MonoBehaviour
             case State.Croc:
                 StartCoroutine(CrocState());
                 break;
+            case State.ultInst:
+                StartCoroutine(ultInst());
+                break;
             default:
                 Debug.LogWarning("_state doesn't exist within nextState function");
                 break;
@@ -54,15 +59,18 @@ public class StateMachine : MonoBehaviour
     {
         if (_animalManager.Health == 1)
         {
-            CurrentState = State.Croc;
+            //go into ultra instinct state at 1 health
+            CurrentState = State.ultInst;
         }
         else
         {
             //health     0 1 2 3 4 5 6 7 8 9
             //health/2   0 0 1 1 2 2 3 3 4 4
             //health/2%2 0 0 1 1 0 0 1 1 0 0
-
-            CurrentState = (State)((_animalManager.Health - 1) / 4 % 2);
+            //increase divisor in increase cycle repeats
+            //increase modulus to increase cycle size
+            //minus 1 for consistent cycle repeats
+            CurrentState = (State)((_animalManager.Health - 1) / 4 % 3);
         }
     }
 
@@ -72,7 +80,7 @@ public class StateMachine : MonoBehaviour
             "A tenacious and head-strong form, " +
             "it favours attacking moves but has low defence. " +
             "It has strong mid and low attacks, but a weak high attack.";
-
+        //set to correct stats
         _animalManager.DogStats();
         while (CurrentState == State.Dog)
         {
@@ -102,9 +110,21 @@ public class StateMachine : MonoBehaviour
                "The most powerful form. An unrelenting attacker and powerful defender, " +
                "it favours attacking and healing moves, and has very high defence. " +
                "It has strong high, mid and low attacks.";
-
+        print("croc stats change");
         _animalManager.CrocStats();
         while (CurrentState == State.Croc)
+        {
+            yield return null;
+        }
+        NextState();
+    }
+
+    private IEnumerator ultInst()
+    {
+        _stateDescText.text = "???";
+
+        _animalManager.UltInstStats();
+        while (CurrentState == State.ultInst)
         {
             yield return null;
         }
