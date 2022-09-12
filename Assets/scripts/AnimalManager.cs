@@ -21,7 +21,7 @@ public class AnimalManager : MonoBehaviour
     [SerializeField] private StateMachine _stateMachine;
 
     public List<string> curMoveList = new List<string>();
-    //private string[] _moveList = { "high", "mid", "low" };
+    private string[] _moveList = { "high", "mid", "low" };
 
     public int attack;
     public int moveAmount = 3;
