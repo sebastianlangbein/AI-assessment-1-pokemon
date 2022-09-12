@@ -1729,6 +1729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animalManager: {fileID: 1501983501}
   _playerManager: {fileID: 1194632666}
+  _stateMachine: {fileID: 1501983502}
   battleText: {fileID: 110271330}
   turnCounterText: {fileID: 1746675820}
 --- !u!4 &1233842686
