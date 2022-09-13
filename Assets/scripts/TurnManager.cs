@@ -8,7 +8,6 @@ public class TurnManager : MonoBehaviour
 {
     [SerializeField] private AnimalManager _animalManager;
     [SerializeField] private PlayerManager _playerManager;
-    [SerializeField] private StateMachine _stateMachine;
 
     public Text battleText;
     [SerializeField] private Text turnCounterText;
@@ -48,8 +47,12 @@ public class TurnManager : MonoBehaviour
 
     private IEnumerator Turn()
     {
-        TurnStart();
+        while (!_animalManager.statsUpdated)
+        {
+            yield return null;
+        }
 
+        TurnStart();
         while (_playerManager.playerCanMove)
         {
             yield return null;

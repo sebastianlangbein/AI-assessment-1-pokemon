@@ -1608,7 +1608,7 @@ MonoBehaviour:
   _energyText: {fileID: 797081185}
   _blockingText: {fileID: 1124171839}
   _health: 20
-  _attack: 3
+  _attack: 30
   _attackRange: 0
   _blockAmount: 2
   _attackButtons: {fileID: 1670182151}
@@ -1729,7 +1729,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animalManager: {fileID: 1501983501}
   _playerManager: {fileID: 1194632666}
-  _stateMachine: {fileID: 1501983502}
   battleText: {fileID: 110271330}
   turnCounterText: {fileID: 1746675820}
 --- !u!4 &1233842686
@@ -2171,6 +2170,7 @@ MonoBehaviour:
   _monkeyImg: {fileID: 21300000, guid: de98d4394260e54408d0d710beaa2cb2, type: 3}
   _crocImg: {fileID: 21300000, guid: 22c00153dffd42140b11fa3190a1105b, type: 3}
   _chickenImg: {fileID: 21300000, guid: d28962f58a8b3b344a1c4d2bdfa1af75, type: 3}
+  statsUpdated: 0
   _playerManager: {fileID: 1194632666}
   _stateMachine: {fileID: 1501983502}
   moveAmount: 3
