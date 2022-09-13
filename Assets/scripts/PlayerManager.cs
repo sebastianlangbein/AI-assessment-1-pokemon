@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private Text _healthText, _energyText, _blockingText;
+    [SerializeField] private Text _healthText, _energyText, _blockingText, _blockStrText;
     [SerializeField] private int _health, _attack, _attackRange, _blockAmount;
     [SerializeField] private GameObject _attackButtons;
     [SerializeField] private GameObject _retryButton;
@@ -16,7 +16,16 @@ public class PlayerManager : MonoBehaviour
     public List<string> playerBlock = new List<string>();
 
     public bool playerCanMove;
+    [SerializeField] private int _maxEnergy;
     public int energy;
+
+    public enum BlockStrength
+    {
+        none = 0,
+        strong = 1,
+        average = 2,
+        weak = 3,
+    }
 
     private void Awake()
     {
@@ -44,8 +53,9 @@ public class PlayerManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        _healthText.text = $"Health {_health}";
-        _energyText.text = $"Energy {energy}";
+        _healthText.text = $"{_health}";
+        _energyText.text = $"{energy}";
+        _blockStrText.text = $"{(BlockStrength)playerBlock.Count}";
     }
 
     public void OnMoveEnergyDown()
@@ -60,7 +70,7 @@ public class PlayerManager : MonoBehaviour
 
     public void PlayerCanMove()
     {
-        energy = 3;
+        energy = _maxEnergy;
         UpdateUI();
         playerCanMove = true;
         _attackButtons.SetActive(true);
@@ -85,11 +95,27 @@ public class PlayerManager : MonoBehaviour
 
     public void PlayerTakeDamage(int damage, string enemyMoveHeight)
     {
+        _blockAmount = 4 - playerBlock.Count;
+        if (_blockAmount >= 4 || _blockAmount < 0)
+        {
+            _blockAmount = 0;
+        }
+
         int blockedDamage = Mathf.Max(damage - _blockAmount, 0);
         if (playerBlock.Contains(enemyMoveHeight))
         {
-            _health -= blockedDamage;
-            _turnManager.battleText.text = $"BLOCKED THE ATTACK AND TOOK {blockedDamage} DAMAGE";
+            if (_health - blockedDamage < 0)
+            {
+                _health = 0;
+                _turnManager.battleText.text = "YOU DIED";
+                _retryButton.SetActive(true);
+                Death();
+            }
+            else
+            {
+                _health -= blockedDamage;
+                _turnManager.battleText.text = $"BLOCKED THE ATTACK AND TOOK {blockedDamage} DAMAGE";
+            }
         }
         else
         {
@@ -106,13 +132,14 @@ public class PlayerManager : MonoBehaviour
                 _turnManager.battleText.text = ($"YOU TOOK {damage} DAMAGE");
             }
         }
+
         UpdateUI();
     }
 
     public void PlayerTurn()
     {
-        //int randAttack = Random.Range(_attack, _attack + (_attackRange + 1));
-        //_animalManager.EnemyTakeDamage(randAttack);
-        _animalManager.EnemyTakeDamage(_attack);
+        int randAttack = Random.Range(_attack, _attack + (_attackRange + 1));
+        _animalManager.EnemyTakeDamage(randAttack);
+        //_animalManager.EnemyTakeDamage(_attack);
     }
 }

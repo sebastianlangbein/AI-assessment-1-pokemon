@@ -70,7 +70,7 @@ public class StateMachine : MonoBehaviour
             //increase divisor in increase cycle repeats
             //increase modulus to increase cycle size
             //minus 1 for consistent cycle repeats
-            CurrentState = (State)((_animalManager.Health - 1) / 5 % 3);
+            CurrentState = (State)((_animalManager.Health - 1) / 10 % 3);
         }
     }
 
@@ -79,7 +79,8 @@ public class StateMachine : MonoBehaviour
         _stateDescText.text = "DOG FORM\n" +
             "A tenacious and head-strong form. " +
             "it has a chance to perform a special unblockable attacking move, but has low defence. " +
-            "It has strong high and low attacks, but a weak mid attack.";
+            "It has strong high and low attacks, but a weak mid attack." +
+            "\nNext form: Monkey";
 
         //set to correct stats
         _animalManager.DogStats();
@@ -95,7 +96,8 @@ public class StateMachine : MonoBehaviour
         _stateDescText.text = "MONKEY FORM\n" +
             "A whimsical and carefree form. " +
             "it has a chance to perform a special healing move, and has high defence. " +
-            "It has a strong mid attack, but weak high and low attacks.";
+            "It has a strong mid attack, but weak high and low attacks." +
+            "\nNext form: Croc";
 
         _animalManager.MonkeyStats();
         while (CurrentState == State.Monkey)
@@ -109,8 +111,9 @@ public class StateMachine : MonoBehaviour
     {
         _stateDescText.text = "CROC FORM\n" +
                "A well balanced form. " +
-               "it can perform a special attacking or healing move, and has very high defence. " +
-               "It has average mid and low attacks, but a weak high attack.";
+               "it can perform a special attacking or healing move, and has high defence. " +
+               "It has average mid and low attacks, but a weak high attack." +
+               "\nNext form: Dog";
 
         _animalManager.CrocStats();
         while (CurrentState == State.Croc)

@@ -47,7 +47,6 @@ public class AnimalManager : MonoBehaviour
         _rt = GetComponent<RectTransform>();
         _sprite = GetComponent<Image>();
         UpdateUI();
-        print($"moveAmount = {moveAmount} from start");
     }
 
     private void UpdateUI()
@@ -63,7 +62,6 @@ public class AnimalManager : MonoBehaviour
         //random dictionary element key
         //int dictIndex = Random.Range(0, moveDict.Count);
         //moveDict.ElementAt(dictIndex).Key;
-        print($"moveAmount = {moveAmount} from moveselect");
 
         _descText.text = "ANIMAL is charging\n";
         for (int i = 0; i < moveAmount; i++)
@@ -80,14 +78,11 @@ public class AnimalManager : MonoBehaviour
 
     public void EnemyTurn()
     {
-        print("started enemy turn");
         StartCoroutine(EnemyAttack());
     }
 
     private IEnumerator EnemyAttack()
     {
-        print($"moveAmount = {moveSelectAmount} from enemyattack");
-
         enemyIsMoving = true;
         for (int i = 0; i < moveSelectAmount; i++)
         {
