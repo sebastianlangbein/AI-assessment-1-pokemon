@@ -59,6 +59,7 @@ public class AnimalManager : MonoBehaviour
     public void MoveSelect()
     {
         moveSelectAmount = moveAmount;
+
         //random dictionary element key
         //int dictIndex = Random.Range(0, moveDict.Count);
         //moveDict.ElementAt(dictIndex).Key;

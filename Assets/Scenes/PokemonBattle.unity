@@ -1930,7 +1930,7 @@ MonoBehaviour:
   _blockingText: {fileID: 1124171839}
   _blockStrText: {fileID: 778587226}
   _health: 20
-  _attack: 4
+  _attack: 5
   _attackRange: 1
   _blockAmount: 2
   _attackButtons: {fileID: 1670182151}
@@ -2809,7 +2809,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 4-5
+  m_Text: 5-6
 --- !u!222 &1608715572
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2975,7 +2975,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

@@ -67,18 +67,22 @@ public class StateMachine : MonoBehaviour
             //health     0 1 2 3 4 5 6 7 8 9
             //health/2   0 0 1 1 2 2 3 3 4 4
             //health/2%2 0 0 1 1 0 0 1 1 0 0
-            //increase divisor in increase cycle repeats
+            //increase divisor to increase cycle repeats
             //increase modulus to increase cycle size
             //minus 1 for consistent cycle repeats
             CurrentState = (State)((_animalManager.Health - 1) / 10 % 3);
         }
     }
-
+    /*
+       stats moves def low mid high 
+    form
+    Dog       3     1   3   1   3
+    Monk      2     2   1   3   1
+    Croc      4     2   2   2   1
+     */
     private IEnumerator DogState()
     {
         _stateDescText.text = "DOG FORM\n" +
-            "A tenacious and head-strong form. " +
-            "it has a chance to perform a special unblockable attacking move, but has low defence. " +
             "It has strong high and low attacks, but a weak mid attack." +
             "\nNext form: Monkey";
 
@@ -94,8 +98,6 @@ public class StateMachine : MonoBehaviour
     private IEnumerator MonkeyState()
     {
         _stateDescText.text = "MONKEY FORM\n" +
-            "A whimsical and carefree form. " +
-            "it has a chance to perform a special healing move, and has high defence. " +
             "It has a strong mid attack, but weak high and low attacks." +
             "\nNext form: Croc";
 
@@ -110,9 +112,7 @@ public class StateMachine : MonoBehaviour
     private IEnumerator CrocState()
     {
         _stateDescText.text = "CROC FORM\n" +
-               "A well balanced form. " +
-               "it can perform a special attacking or healing move, and has high defence. " +
-               "It has average mid and low attacks, but a weak high attack." +
+               "It has average mid and low attacks, and a weak high attack." +
                "\nNext form: Dog";
 
         _animalManager.CrocStats();
